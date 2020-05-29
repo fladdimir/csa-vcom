@@ -1,0 +1,46 @@
+<h3>Tour {{tourLocation.id}}</h3>
+
+<div *ngIf="tourLocation.truck != null">
+    <button mat-button (click)="onCancelTour()" style="margin: 5px; margin-left: 0px;">
+        <mat-icon style="margin: 5px;">cancel</mat-icon>Drop from truck {{tourLocation.truck.name}} (ID:
+        {{tourLocation.truck.id}})
+    </button>
+</div>
+
+<mat-dialog-content>
+    <table mat-table [dataSource]="tourLocation.order_set" class="mat-elevation-z8" style="width: 100%;">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef> Customer </th>
+            <td mat-cell *matCellDef="let element"> {{element.customer.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="creation_date">
+            <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.creation_date | date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef> Weight </th>
+            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_delivered">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element" style="min-width: 12ch;">
+                <mat-checkbox [(ngModel)]="element.is_delivered" (change)="onCheckBoxChange(element)">
+                    {{element.is_delivered ? "delivered":"pending"}}
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef=" displayedColumns">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</mat-dialog-content>

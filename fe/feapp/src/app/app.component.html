@@ -1,0 +1,46 @@
+<mat-toolbar class="navigation-bar" style="height: 5%;">
+    <mat-icon (click)=navigationSidenav.toggle() style="cursor: pointer;">view_quilt</mat-icon>
+    <button mat-button style="margin-left: 1%; cursor: default;" routerLink="/start">My Application</button>
+</mat-toolbar>
+
+<mat-sidenav-container style="height: 95%;">
+
+    <mat-sidenav #navigationSidenav opened mode="side">
+        <mat-nav-list style="float: left;  display: flex; flex-direction: column;">
+
+            <button mat-button class="side-nav-elem">
+                <div routerLink="/start" class="link-elem" routerLinkActive="active">
+                    <mat-icon>home</mat-icon>
+                    <span class="link-text">Home</span>
+                </div>
+            </button>
+
+            <button mat-button class="side-nav-elem">
+                <div routerLink="/locations" class="link-elem" routerLinkActive="active">
+                    <mat-icon>home_work</mat-icon>
+                    <span class="link-text">Locations</span>
+                </div>
+            </button>
+
+            <button mat-button class="side-nav-elem">
+                <div routerLink="/orders-and-tours" class="link-elem" routerLinkActive="active">
+                    <mat-icon>person_pin_circle</mat-icon>
+                    <span class="link-text">Orders & Tours</span>
+                </div>
+            </button>
+
+            <button mat-button class="side-nav-elem">
+                <div routerLink="/trucks" class="link-elem" routerLinkActive="active">
+                    <mat-icon>local_shipping</mat-icon>
+                    <span class="link-text">Trucks</span>
+                </div>
+            </button>
+
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content-area">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

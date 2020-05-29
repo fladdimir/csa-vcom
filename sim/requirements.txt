@@ -1,0 +1,4 @@
+casymda==0.2.21
+CairoSVG==2.4.2
+requests==2.23.0
+geopy==1.22.0

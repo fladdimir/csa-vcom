@@ -1,0 +1,9 @@
+<h4>Enter customer info:</h4>
+<mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="customer.name" required pattern="[\w]+" #input="ngModel">
+</mat-form-field>
+<div mat-dialog-actions>
+    <button mat-button (click)="onConfirm()" cdkFocusInitial [disabled]="input.invalid">Confirm</button>
+    <button mat-button [mat-dialog-close]="">Cancel</button>
+</div>
