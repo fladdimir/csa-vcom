@@ -1,0 +1,72 @@
+version: "3"
+
+networks:
+  gitea_ci:
+    external: false
+
+services:
+  gitea:
+    image: gitea/gitea:1.11.4
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - ROOT_URL=http://gitea:3000
+    restart: always
+    networks:
+      - gitea_ci
+    volumes:
+      - ./data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+
+  drone-server:
+    image: drone/drone:1
+    container_name: drone-server
+    networks:
+      - gitea_ci
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - ./drone/data:/data
+    restart: always
+    depends_on:
+      - gitea
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_GITEA=true
+      - DRONE_GITEA_CLIENT_ID=8256ea60-5884-413b-96cd-6469ab6ab909
+      - DRONE_GITEA_CLIENT_SECRET=J0_cLbdmMgniQ1lF7okiMA2UwMZ-LWbtU_IWrHcyY6g=
+      - DRONE_NETWORK=gitea_ci
+      - DRONE_DEBUG=false
+      - DRONE_ADMIN=sub
+      - DRONE_USER_CREATE=username:sub,admin:true
+      - DRONE_SERVER_PORT=:8000
+      - DRONE_GIT_ALWAYS_AUTH=false
+      - DRONE_GITEA_SERVER=http://gitea:3000
+      - DRONE_RPC_SECRET=secret12
+      - DRONE_SERVER_HOST=localhost:8000
+      - DRONE_SERVER_PROTO=http
+      - DRONE_TLS_AUTOCERT=false
+      - DRONE_AGENTS_ENABLED=true
+
+  drone-runner:
+    image: drone/drone-runner-docker:1
+    container_name: drone-runner
+    networks:
+      - gitea_ci
+    restart: always
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./drone-runner:/data
+    environment:
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_HOST=drone-server:8000
+      - DRONE_RPC_SECRET=secret12
+      - DRONE_RUNNER_CAPACITY=2
+      - DRONE_RUNNER_NETWORKS=gitea_gitea_ci

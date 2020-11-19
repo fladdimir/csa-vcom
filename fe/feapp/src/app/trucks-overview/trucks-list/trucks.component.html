@@ -1,0 +1,52 @@
+<table mat-table [dataSource]="trucks" class="mat-elevation-z8" style="width: 100%;">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element">
+            <mat-form-field>
+                <input matInput [(ngModel)]="element.name" (blur)="updateName(element)">
+            </mat-form-field>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="capacity">
+        <th mat-header-cell *matHeaderCellDef> Capacity </th>
+        <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lat">
+        <th mat-header-cell *matHeaderCellDef> Latitude </th>
+        <td mat-cell *matCellDef="let element"> {{element.lat}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lon">
+        <th mat-header-cell *matHeaderCellDef> Longitude </th>
+        <td mat-cell *matCellDef="let element"> {{element.lon}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tour">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.tour?'Tour-ID: '+element.tour:'idle'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button (click)="deleteTruck(element)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<button mat-button style="margin-top: 10px;" (click)="addTruck()">
+    <mat-icon>add</mat-icon>
+</button>

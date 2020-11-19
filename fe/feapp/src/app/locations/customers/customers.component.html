@@ -1,0 +1,37 @@
+<div style="height: 100%; overflow: auto;">
+    <table mat-table matSort [dataSource]="customersDataSource" class="mat-elevation-z8" style="width: 100%;">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lat">
+            <th mat-header-cell *matHeaderCellDef> Latitude </th>
+            <td mat-cell *matCellDef="let element"> {{element.location.lat}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lon">
+            <th mat-header-cell *matHeaderCellDef> Longitude </th>
+            <td mat-cell *matCellDef="let element"> {{element.location.lon}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="num_completed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> # completed orders </th>
+            <td mat-cell *matCellDef="let element"> {{getNumCompletedOrders(element.order_set)}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="num_pending">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> # pending orders </th>
+            <td mat-cell *matCellDef="let element"> {{getNumPendingOrders(element.order_set)}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

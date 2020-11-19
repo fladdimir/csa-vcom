@@ -1,0 +1,67 @@
+kind: pipeline
+name: csa-vc
+type: docker
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
+
+steps:
+  - name: build-backend-image
+    image: docker
+    pull: if-not-exists
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t csa-vc-be -f ./be-django/Dockerfile ./be-django
+      # optionally: # --no-cache  # :${DRONE_COMMIT}
+      # optionally: use kaniko or similar instead of mounting docker.sock
+
+  - name: django-tests
+    image: csa-vc-be:latest
+    pull: never
+    commands:
+      - cd ./be-django/project/
+      - python3 ./manage.py test
+
+  - name: backend-service
+    detach: true
+    image: csa-vc-be:latest
+    pull: never
+    environment:
+      OSRM_HOST: http://osrm-service:5000
+    commands:
+      - cd ./be-django/project/
+      - python3 ./manage.py migrate
+      - python3 ./manage.py runserver
+      # (runs on port 7000)
+
+  - name: osrm-service
+    detach: true
+    image: osrm/osrm-backend
+    pull: if-not-exists
+    commands:
+      - osrm-routed --algorithm mld ./osrm/data/hamburg-latest.osrm
+      # (runs on port 5000)
+
+  - name: build-sim-image
+    image: docker
+    pull: if-not-exists
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t csa-vc-sim -f ./sim/Dockerfile ./sim
+
+  - name: vcom-test-backend
+    image: csa-vc-sim:latest
+    pull: never
+    environment:
+      BE_URL: http://backend-service:7000
+      OSRM_HOST: http://osrm-service:5000
+    commands:
+      - sleep 5 # better: wait-for-it
+      - cd ./sim
+      - python ./exec/run_model.py
