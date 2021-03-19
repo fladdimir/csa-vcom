@@ -1,5 +1,5 @@
 django==3.0.5
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 django-cors-headers==3.2.1
 ortools==7.6.7691
 geopy==1.22.0
