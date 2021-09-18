@@ -1,0 +1,15 @@
+<div *ngIf="customer">
+
+    <h3>Customer {{customer.id}}: {{customer.name}}</h3>
+
+    <div>
+        <div style="float:left; margin-right: 50px;">
+            <h4>Pending orders:</h4>
+            <app-orders [orders]="getPendingOrders()" (orderDeleted)="ngOnInit()"></app-orders>
+        </div>
+
+        <app-ordercreation [customerId]="customer.id" (orderCreated)="ngOnInit()">
+        </app-ordercreation>
+    </div>
+
+</div>

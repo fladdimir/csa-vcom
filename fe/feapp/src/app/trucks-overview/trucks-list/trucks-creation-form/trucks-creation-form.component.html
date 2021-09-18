@@ -1,0 +1,24 @@
+<h4>Enter truck info:</h4>
+<div style="display: flex; flex-direction: column; width: 80%;">
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="truck.name" required pattern="[\w]+" #name="ngModel">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Latitude</mat-label>
+        <input matInput [(ngModel)]="truck.lat" required pattern="-?\d{1,3}\.\d+" #lat="ngModel">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Longitude</mat-label>
+        <input matInput [(ngModel)]="truck.lon" required pattern="-?\d{1,3}\.\d+" #lon="ngModel">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Capacity</mat-label>
+        <input matInput value="1000" disabled>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onConfirm()" cdkFocusInitial
+        [disabled]="name.invalid || lat.invalid || lon.invalid">Confirm</button>
+    <button mat-button [mat-dialog-close]="">Cancel</button>
+</div>

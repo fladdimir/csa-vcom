@@ -1,0 +1,39 @@
+version: "2.1"
+
+networks:
+  app_network:
+
+services:
+  postgres:
+    image: postgres:9.6.20
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - app_network
+
+  osrm:
+    image: csa_vc_osrm:latest
+    ports:
+      - "5000:5000"
+    networks:
+      - app_network
+
+  be:
+    image: csa_vc_be:latest
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+    ports:
+      - "7000:7000"
+
+  fe:
+    image: csa_vc_fe:latest
+    networks:
+      - app_network
+    ports:
+      - "4201:80"

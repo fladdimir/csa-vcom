@@ -1,0 +1,15 @@
+<div style="display:flex; align-items: center; padding: 0px">
+    <h4 style="float: left; margin: 10px; color: #bbbbbb"> Drop an icon onto the map to place a customer /
+        depot: </h4>
+    <mat-card style="margin: 5px; padding: 0px;">
+        <img style="margin: 5px; margin-bottom: 0px; cursor: pointer;" src="assets/icons/person_pin.png"
+            draggable="true" (dragstart)="dragStartCustomer()" (dragend)="dragEnd()">
+    </mat-card>
+    <mat-card style="margin-top: 5px; margin-bottom: 5px; padding: 0px;">
+        <img style="margin: 5px; margin-bottom: 0px; cursor: pointer;" src="assets/icons/business.png" draggable="true"
+            (dragstart)="dragStartDepot()" (dragend)="dragEnd()">
+    </mat-card>
+</div>
+
+<div style="height: 750px; width: 100%;" leaflet [leafletOptions]="options" [leafletLayers]="layers"
+    (leafletMapReady)="leafletMapReady($event)" (drop)="onDrop($event)" (dragover)="allowDrag($event)"></div>
