@@ -1,0 +1,51 @@
+version: "2.1"
+
+networks:
+  app_network:
+
+# use "docker-compose build" to rebuild an image in case of dependency changes
+services:
+  osrm:
+    extends:
+      file: ./osrm/docker-compose.yml
+      service: osrm-backend
+    networks:
+      - app_network
+
+  be:
+    extends:
+      file: ./be-django/docker-compose.yml
+      service: be-postgres
+    networks:
+      - app_network
+
+  postgres:
+    extends:
+      file: ./be-django/docker-compose.yml
+      service: postgres
+    networks:
+      - app_network
+
+  fe:
+    build: ./fe/feapp
+    networks:
+      - app_network
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./fe/feapp:/app
+      - /app/node_modules
+    command: ng serve --host 0.0.0.0
+
+  sim:
+    build: ./sim
+    networks:
+      - app_network
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./sim:/usr/src
+    environment:
+      BE_URL: http://be:7000
+      OSRM_HOST: http://osrm:5000
+    command: python /usr/src/exec/run_web_proc_anim.py

@@ -1,0 +1,25 @@
+<div style="width: 95%;">
+    <mat-accordion>
+
+        <mat-expansion-panel [expanded]="true" (opened)="onMapOpened()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Map</mat-panel-title>
+                <mat-panel-description>Assign tours and update the progress.</mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-trucks-map></app-trucks-map>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="onListOpened()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Trucks list</mat-panel-title>
+                <mat-panel-description>One list - all trucks.</mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-trucks></app-trucks>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
+</div>

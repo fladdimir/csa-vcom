@@ -1,0 +1,8 @@
+<div>
+    <h4>Create new order:</h4>
+    <mat-form-field>
+        <mat-label>Weight</mat-label>
+        <input matInput [(ngModel)]="weight" type="'number'" min="0">
+    </mat-form-field>
+    <button mat-button (click)="createOrder()">Create</button>
+</div>

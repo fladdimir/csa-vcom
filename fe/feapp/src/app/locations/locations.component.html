@@ -1,0 +1,11 @@
+<mat-tab-group [dynamicHeight]="true" style="width: 95%; height: 90%;" (selectedTabChange)="onSelectedTabChange($event)">
+    <mat-tab label="Map">
+        <app-locations-map></app-locations-map>
+    </mat-tab>
+    <mat-tab label="Customers">
+        <app-customers></app-customers>
+    </mat-tab>
+    <mat-tab label="Depots">
+        <app-depots></app-depots>
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,44 @@
+version: "2.1"
+
+services:
+  be:
+    build: ./
+    ports:
+      - "7000:7000"
+    volumes:
+      - ./:/usr/src
+      - /usr/src/project/db/
+    environment:
+      OSRM_HOST: http://osrm:5000
+      DB_REL_PATH: db/db.sqlite3
+    command: >
+      bash -c "
+      rm -f /usr/src/project/db/db.sqlite3
+      && python3 project/manage.py migrate
+      && python3 project/manage.py runserver
+      "
+
+  be-postgres:
+    extends:
+      service: be
+    build:
+      context: ./ # TODO: virtual environment seems to be included into build context and copied to image?
+      dockerfile: ./Complete.Dockerfile
+    environment:
+      DB_HOST: postgres
+      DJANGO_SETTINGS_MODULE: be.settings_server_db
+    command: >
+      bash -c "
+      cd project
+      && python3 manage.py migrate
+      && gunicorn --bind 0.0.0.0:7000 --workers=2 'be.wsgi:application'
+      "
+
+  postgres:
+    image: postgres:9.6.20
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
