@@ -1,0 +1,22 @@
+# test heroku-container
+version: '3'
+
+services:
+  postgres:
+    image: postgres:9.6.20
+    network_mode: host
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  # project root:
+  # docker build . -t csa-vc-app
+  app:
+    image: csa-vc-app
+    network_mode: host
+    environment:
+      - PORT=8082
+      - DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+      - BE_REQUIRE_SSL=false
+      - BE_ALLOWED_HOSTS=localhost

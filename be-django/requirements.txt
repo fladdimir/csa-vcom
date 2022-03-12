@@ -1,0 +1,10 @@
+django==3.0.5
+djangorestframework==3.11.0
+django-cors-headers==3.2.1
+ortools==7.6.7691
+geopy==1.22.0
+polyline==1.4.0
+numpy==1.19.4
+psycopg2-binary==2.8.6
+gunicorn==20.0.4
+dj_database_url==0.5.0

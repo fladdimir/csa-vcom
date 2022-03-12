@@ -1,0 +1,28 @@
+events{}
+
+
+http {
+
+    error_log /dev/stdout info;
+    access_log /dev/stdout;
+
+    include /etc/nginx/mime.types;
+
+    server {
+        # replaced by environment variable:
+        listen ${PORT};
+
+        include /etc/nginx/proxy.conf;
+
+        include /etc/nginx/frontend.conf;
+
+        # backend api
+        location /api/ {
+            proxy_pass http://localhost:7000/;
+        }
+        # osrm
+        location /osrm/ {
+            proxy_pass http://localhost:5000/;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+  prepare-osrm-data:
+    image: osrm/osrm-backend:v5.22.0
+    volumes:
+      - ./data:/data
+    command: >
+      bash -c "
+      osrm-extract -p /opt/car.lua /data/hamburg-latest.osm.pbf
+      && osrm-partition /data/hamburg-latest.osrm
+      && osrm-customize /data/hamburg-latest.osrm
+      "
+
+  osrm-backend:
+    image: osrm/osrm-backend:v5.22.0
+    volumes:
+      - ./data:/data
+    ports:
+      - "5000:5000"
+    command: osrm-routed --algorithm mld /data/hamburg-latest.osrm
+
+  osrm-frontend:
+    image: osrm/osrm-frontend
+    depends_on:
+      - osrm-backend
+    ports:
+      - "9966:9966"

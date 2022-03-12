@@ -1,0 +1,9 @@
+version: "2.1"
+
+services:
+  fe:
+    build:
+      context: ./
+      dockerfile: ./Complete.Dockerfile
+    ports:
+      - "4201:80"

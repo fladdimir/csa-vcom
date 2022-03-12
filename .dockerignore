@@ -1,0 +1,13 @@
+*
+# fe
+!fe
+**/node_modules/**
+**/dist/**
+# nginx
+!heroku
+# be
+!be-django
+**/.vscode
+**/venv
+# osrm
+!osrm

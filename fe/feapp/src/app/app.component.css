@@ -1,0 +1,28 @@
+.side-nav-elem {
+  display: block;
+  margin: 20px;
+  margin-right: 25px;
+}
+
+.link-elem {
+  display: flex;
+  align-items: center;
+  outline: none !important;
+}
+
+.link-text {
+  margin-left: 10px;
+}
+
+.active mat-icon {
+  text-decoration: underline;
+}
+
+.active span {
+  text-shadow: 0px 0px 0.05px black;
+}
+
+.content-area {
+  padding-top: 2%;
+  padding-left: 5%;
+}

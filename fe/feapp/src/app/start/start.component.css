@@ -1,0 +1,18 @@
+div > button {
+  width: 30%;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  margin: 10px;
+  padding: 20px;
+  background-color: #424242;
+}
+
+.button-image {
+  width: 50%;
+}
+
+.button-paragraph {
+  color: #cfcfcf;
+}
